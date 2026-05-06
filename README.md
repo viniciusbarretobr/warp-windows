@@ -4,8 +4,9 @@
 
 ### 1. No CMD remoto de cada PC:
 ```
-cmdcurl -L -o %TEMP%\instalar_warp.cmd https://github.com/viniciusbarretobr/warp-windows/blob/main/instalar_warp.bat
-curl -L -o %TEMP%\testar_warp.cmd https://github.com/viniciusbarretobr/warp-windows/blob/main/testar_warp.bat
+del %TEMP%\instalar_warp.cmd %TEMP%\testar_warp.cmd
+curl -L -o %TEMP%\instalar_warp.cmd https://raw.githubusercontent.com/viniciusbarretobr/warp-windows/main/instalar_warp.bat
+curl -L -o %TEMP%\testar_warp.cmd https://raw.githubusercontent.com/viniciusbarretobr/warp-windows/main/testar_warp.bat
 %TEMP%\instalar_warp.cmd
 ```
 
