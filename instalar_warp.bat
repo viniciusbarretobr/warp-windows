@@ -56,13 +56,24 @@ if not exist "%WARP_CLI%" (
 )
 timeout /t 5 /nobreak >nul
 :registrar
-REM --- 5. Registro e conexao ---
-echo [4/4] Registrando e conectando...
+REM --- 5. Pula tela de boas-vindas (onboarding) ---
+echo [INFO] Configurando para pular onboarding...
+reg add "HKLM\SOFTWARE\Cloudflare\Warp" /v "organization" /t REG_SZ /d "" /f >nul 2>&1
+reg add "HKCU\SOFTWARE\Cloudflare\Warp" /v "onboarding_complete" /t REG_DWORD /d 1 /f >nul 2>&1
+for /f "tokens=2" %%u in ('query session ^| findstr /R /C:"console"') do (
+    reg load "HKU\TempUser" "C:\Users\%%u\NTUSER.DAT" >nul 2>&1
+    reg add "HKU\TempUser\SOFTWARE\Cloudflare\Warp" /v "onboarding_complete" /t REG_DWORD /d 1 /f >nul 2>&1
+    reg unload "HKU\TempUser" >nul 2>&1
+)
+REM --- 6. Registro, configuracao e conexao ---
+echo [4/4] Registrando, configurando e conectando...
 "%WARP_CLI%" --accept-tos registration new >> "%LOG%" 2>&1
 timeout /t 3 /nobreak >nul
+"%WARP_CLI%" --accept-tos set-mode warp >> "%LOG%" 2>&1
 "%WARP_CLI%" --accept-tos connect >> "%LOG%" 2>&1
+"%WARP_CLI%" --accept-tos enable-always-on >> "%LOG%" 2>&1
 timeout /t 5 /nobreak >nul
-REM --- 6. Status final ---
+REM --- 7. Status final ---
 echo.
 echo ============================================================
 echo Status final:
