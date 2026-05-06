@@ -12,7 +12,7 @@ curl -L -o %TEMP%\testar_warp.cmd https://raw.githubusercontent.com/viniciusbarr
 
 ### 2. Validar:
 ```
-cmd%TEMP%\testar_warp.cmd
+%TEMP%\testar_warp.cmd
 ```
 Procurar warp=on na saída.
 
